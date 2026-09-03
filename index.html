@@ -155,14 +155,29 @@ async function loadStatus() {
     if (result.error) throw result.error;
     var data = result.data;
     if (data) {
+      // 【修复】先判断程序是否在线：updated_at 距今超过15秒（程序每3秒上报一次）视为离线。
+      //        离线时 SAP 状态必须显示"离线"，不能再用旧数据误报"已登录/可以操作"。
+      var offline = true, ageSec = 0;
+      if (data.updated_at) {
+        ageSec = (Date.now() - new Date(data.updated_at).getTime()) / 1000;
+        offline = ageSec > 15;
+      }
       // ① SAP 连接状态
       var ls = document.getElementById('loginStatus');
-      ls.textContent = data.login_status || '未知';
-      ls.className = 'value ' + (data.can_operate ? 'green' : (data.login_status === '已登录' ? 'orange' : 'gray'));
-      setVal('currentSap', data.current_sap);
       var co = document.getElementById('canOperate');
-      co.textContent = data.can_operate ? '✓ 可以操作' : '✗ 不可操作';
-      co.className = 'badge ' + (data.can_operate ? 'badge-green' : 'badge-orange');
+      if (offline) {
+        ls.textContent = '离线（程序未运行）';
+        ls.className = 'value gray';
+        setVal('currentSap', '--');
+        co.textContent = '✗ 不可操作（离线）';
+        co.className = 'badge badge-gray';
+      } else {
+        ls.textContent = data.login_status || '未知';
+        ls.className = 'value ' + (data.can_operate ? 'green' : (data.login_status === '已登录' ? 'orange' : 'gray'));
+        setVal('currentSap', data.current_sap);
+        co.textContent = data.can_operate ? '✓ 可以操作' : '✗ 不可操作';
+        co.className = 'badge ' + (data.can_operate ? 'badge-green' : 'badge-orange');
+      }
       // ② 故障保留
       var gs = data.gzbl_start || '', ge = data.gzbl_end || '';
       setVal('gzblRange', (gs ? gs.slice(0,10) : '') + ' ~ ' + (ge ? ge.slice(0,10) : ''));
