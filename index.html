@@ -46,72 +46,83 @@ h1{font-size:20px;color:#1a1a1a;font-weight:700}
 
 <div class="topbar">
   <h1>🛠 SAP保存代码合并 · 远程控制</h1>
-  <div class="sub"><span class="dot offline" id="connDot"></span><span id="connText">连接中...</span> · 运行 <span id="appTime">--</span></div>
+  <div class="sub"><span class="dot offline" id="conn_dot"></span><span id="conn_text">连接中...</span> · 运行 <span id="app_time">--</span></div>
   <div class="mode-badge">外网模式 · 云端中转</div>
 </div>
 
 <!-- ① SAP 连接状态 -->
 <div class="card">
   <div class="card-title">① SAP 连接状态 <span class="tag">实时</span></div>
-  <div class="status-row"><span class="label">登录状态</span><span class="value gray" id="loginStatus">未知</span></div>
-  <div class="status-row"><span class="label">当前界面</span><span class="value gray" id="currentSap">-</span></div>
-  <div class="status-row"><span class="label">可操作</span><span class="badge badge-gray" id="canOperate">-</span></div>
+  <div class="status-row"><span class="label">登录状态</span><span class="value gray" id="login_status">未知</span></div>
+  <div class="status-row"><span class="label">当前界面</span><span class="value gray" id="current_sap">-</span></div>
+  <div class="status-row"><span class="label">可操作</span><span class="badge badge-gray" id="can_operate">-</span></div>
   <div class="btn-grid">
-    <button class="btn btn-green btn-full" onclick="sendCommand('login')">🔐 打开SAP登录</button>
-    <button class="btn btn-gray" onclick="sendCommand('recheck')">🔄 重新确认</button>
-    <button class="btn btn-blue" onclick="sendCommand('f12')">按F12</button>
-    <button class="btn btn-orange" onclick="sendCommand('esc')">按ESC</button>
+    <button class="btn btn-green btn-full" onclick="sendCommand(CMD.login)">🔐 打开SAP登录</button>
+    <button class="btn btn-gray" onclick="sendCommand(CMD.recheck)">🔄 重新确认</button>
+    <button class="btn btn-blue" onclick="sendCommand(CMD.f12)">按F12</button>
+    <button class="btn btn-orange" onclick="sendCommand(CMD.esc)">按ESC</button>
   </div>
 </div>
 
 <!-- ② 故障保留 -->
 <div class="card">
   <div class="card-title">② 故障保留 <span class="tag">ZMDM035D</span></div>
-  <div class="status-row"><span class="label">日期范围</span><span class="value" id="gzblRange">-</span></div>
-  <div class="status-row"><span class="label">上次执行</span><span class="value" id="gzblResult">-</span></div>
+  <div class="status-row"><span class="label">日期范围</span><span class="value" id="gzbl_range">-</span></div>
+  <div class="status-row"><span class="label">上次执行</span><span class="value" id="gzbl_result">-</span></div>
 </div>
 
 <!-- ③ 计划控制平台 -->
 <div class="card">
   <div class="card-title">③ 计划控制平台 <span class="tag">ZMDM050</span></div>
-  <div class="status-row"><span class="label">日期范围</span><span class="value" id="jhkzptRange">-</span></div>
-  <div class="status-row"><span class="label">上次执行</span><span class="value" id="jhkzptResult">-</span></div>
+  <div class="status-row"><span class="label">日期范围</span><span class="value" id="jhkzpt_range">-</span></div>
+  <div class="status-row"><span class="label">上次执行</span><span class="value" id="jhkzpt_result">-</span></div>
 </div>
 
 <!-- ④ 统计报表 -->
 <div class="card">
   <div class="card-title">④ 故障保留统计报表 <span class="tag">ZMDR065</span></div>
-  <div class="status-row"><span class="label">定时执行</span><span class="value" id="statsTime">-</span></div>
-  <div class="status-row"><span class="label">今日状态</span><span class="value" id="statsStatus">-</span></div>
-  <div class="status-row"><span class="label">上次执行</span><span class="value" id="statsResult">-</span></div>
+  <div class="status-row"><span class="label">定时执行</span><span class="value" id="stats_time">-</span></div>
+  <div class="status-row"><span class="label">今日状态</span><span class="value" id="stats_status">-</span></div>
+  <div class="status-row"><span class="label">上次执行</span><span class="value" id="stats_result">-</span></div>
   <div class="btn-grid">
-    <button class="btn btn-orange btn-full" onclick="sendCommand('runstats')">📋 补跑统计报表</button>
+    <button class="btn btn-orange btn-full" onclick="sendCommand(CMD.runstats)">📋 补跑统计报表</button>
   </div>
 </div>
 
 <!-- ⑤ 执行控制 -->
 <div class="card">
-  <div class="card-title">⑤ 执行控制 <span class="tag-gray" id="loopSec">循环 -- 秒</span></div>
-  <div class="status-row"><span class="label">运行状态</span><span class="value blue" id="loopStatus">未知</span></div>
+  <div class="card-title">⑤ 执行控制 <span class="tag-gray" id="loop_seconds_label">循环 -- 秒</span></div>
+  <div class="status-row"><span class="label">运行状态</span><span class="value blue" id="loop_status">未知</span></div>
   <div class="btn-grid">
-    <button class="btn btn-blue" onclick="sendCommand('runonce')">▶ 执行一次</button>
-    <button class="btn btn-green" onclick="sendCommand('loop')">🔄 开启循环</button>
-    <button class="btn btn-red" onclick="sendCommand('stop')">⏹ 停止</button>
+    <button class="btn btn-blue" onclick="sendCommand(CMD.runonce)">▶ 执行一次</button>
+    <button class="btn btn-green" onclick="sendCommand(CMD.loop)">🔄 开启循环</button>
+    <button class="btn btn-red" onclick="sendCommand(CMD.stop)">⏹ 停止</button>
   </div>
 </div>
 
 <!-- ⑥ 运行日志 -->
 <div class="card">
   <div class="card-title">⑥ 运行日志 <span class="tag-gray">最近20条</span></div>
-  <div class="log-box" id="logBox">等待数据...</div>
+  <div class="log-box" id="recent_logs">等待数据...</div>
 </div>
 
-<div class="footer">最后云端更新 <span id="lastUpdate">--:--:--</span></div>
+<div class="footer">最后云端更新 <span id="last_update">--:--:--</span></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 var SUPABASE_URL = 'https://tnqwjbgqdpntcqlibeej.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRucXdqYmdxZHBudGNxbGliZWVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3ODUyMjIsImV4cCI6MjEwMzM2MTIyMn0.OSzerERP7DWeVlcjxqBOre_zbr6dVUTnqEHLUZPYGkw';
+
+/* ★ 统一字典（JS 侧）：与 AppDict.vb 的 CMD_* 一一对应；离线阈值 = AppDict.CLOUD_OFFLINE_SECONDS */
+var CMD = {
+  runonce:'runonce', loop:'loop', stop:'stop', runstats:'runstats',
+  login:'login', recheck:'recheck', f12:'f12', esc:'esc'
+};
+var CMD_NAME = {
+  runonce:'执行一次', loop:'开启循环', stop:'停止', runstats:'补跑统计报表',
+  login:'打开SAP登录', recheck:'重新确认SAP界面', f12:'按F12', esc:'按ESC'
+};
+var OFFLINE_SECONDS = 15;   // 云端离线判定阈值（程序每3秒上报一次）
 
 var supabaseClient = null;
 
@@ -127,8 +138,8 @@ function init() {
 }
 
 function setConnStatus(online, text) {
-  document.getElementById('connDot').className = 'dot ' + (online ? 'online' : 'offline');
-  document.getElementById('connText').textContent = text;
+  document.getElementById('conn_dot').className = 'dot ' + (online ? 'online' : 'offline');
+  document.getElementById('conn_text').textContent = text;
 }
 
 function setButtonsEnabled(enabled) {
@@ -155,51 +166,51 @@ async function loadStatus() {
     if (result.error) throw result.error;
     var data = result.data;
     if (data) {
-      // 【修复】先判断程序是否在线：updated_at 距今超过15秒（程序每3秒上报一次）视为离线。
+      // 【修复】先判断程序是否在线：updated_at 距今超过 OFFLINE_SECONDS 秒（程序每3秒上报一次）视为离线。
       //        离线时 SAP 状态必须显示"离线"，不能再用旧数据误报"已登录/可以操作"。
       var offline = true, ageSec = 0;
       if (data.updated_at) {
         ageSec = (Date.now() - new Date(data.updated_at).getTime()) / 1000;
-        offline = ageSec > 15;
+        offline = ageSec > OFFLINE_SECONDS;
       }
       // ① SAP 连接状态
-      var ls = document.getElementById('loginStatus');
-      var co = document.getElementById('canOperate');
+      var ls = document.getElementById('login_status');
+      var co = document.getElementById('can_operate');
       if (offline) {
         ls.textContent = '离线（程序未运行）';
         ls.className = 'value gray';
-        setVal('currentSap', '--');
+        setVal('current_sap', '--');
         co.textContent = '✗ 不可操作（离线）';
         co.className = 'badge badge-gray';
       } else {
         ls.textContent = data.login_status || '未知';
         ls.className = 'value ' + (data.can_operate ? 'green' : (data.login_status === '已登录' ? 'orange' : 'gray'));
-        setVal('currentSap', data.current_sap);
+        setVal('current_sap', data.current_sap);
         co.textContent = data.can_operate ? '✓ 可以操作' : '✗ 不可操作';
         co.className = 'badge ' + (data.can_operate ? 'badge-green' : 'badge-orange');
       }
-      // ② 故障保留
+      // ② 故障保留（日期范围由 _start/_end 两列拼接）
       var gs = data.gzbl_start || '', ge = data.gzbl_end || '';
-      setVal('gzblRange', (gs ? gs.slice(0,10) : '') + ' ~ ' + (ge ? ge.slice(0,10) : ''));
-      setVal('gzblResult', data.gzbl_result, String(data.gzbl_result||'').indexOf('✅')>=0 ? 'green' : (String(data.gzbl_result||'').indexOf('❌')>=0 ? 'red' : ''));
+      setVal('gzbl_range', (gs ? gs.slice(0,10) : '') + ' ~ ' + (ge ? ge.slice(0,10) : ''));
+      setVal('gzbl_result', data.gzbl_result, String(data.gzbl_result||'').indexOf('✅')>=0 ? 'green' : (String(data.gzbl_result||'').indexOf('❌')>=0 ? 'red' : ''));
       // ③ 计划控制平台
       var js2 = data.jhkzpt_start || '', je = data.jhkzpt_end || '';
-      setVal('jhkzptRange', (js2 ? js2.slice(0,10) : '') + ' ~ ' + (je ? je.slice(0,10) : ''));
-      setVal('jhkzptResult', data.jhkzpt_result, String(data.jhkzpt_result||'').indexOf('✅')>=0 ? 'green' : (String(data.jhkzpt_result||'').indexOf('❌')>=0 ? 'red' : ''));
+      setVal('jhkzpt_range', (js2 ? js2.slice(0,10) : '') + ' ~ ' + (je ? je.slice(0,10) : ''));
+      setVal('jhkzpt_result', data.jhkzpt_result, String(data.jhkzpt_result||'').indexOf('✅')>=0 ? 'green' : (String(data.jhkzpt_result||'').indexOf('❌')>=0 ? 'red' : ''));
       // ④ 统计报表
-      setVal('statsTime', data.stats_time);
-      var st = document.getElementById('statsStatus');
+      setVal('stats_time', data.stats_time);
+      var st = document.getElementById('stats_status');
       st.textContent = data.stats_status || '-';
       st.className = 'value ' + (String(data.stats_status||'').indexOf('✅')>=0 ? 'green' : (String(data.stats_status||'').indexOf('❌')>=0 ? 'red' : 'gray'));
-      setVal('statsResult', data.stats_result, String(data.stats_result||'').indexOf('✅')>=0 ? 'green' : (String(data.stats_result||'').indexOf('❌')>=0 ? 'red' : ''));
+      setVal('stats_result', data.stats_result, String(data.stats_result||'').indexOf('✅')>=0 ? 'green' : (String(data.stats_result||'').indexOf('❌')>=0 ? 'red' : ''));
       // ⑤ 执行控制
-      document.getElementById('loopSec').textContent = '循环 ' + (data.loop_seconds || '--') + ' 秒';
-      var l2 = document.getElementById('loopStatus');
+      document.getElementById('loop_seconds_label').textContent = '循环 ' + (data.loop_seconds || '--') + ' 秒';
+      var l2 = document.getElementById('loop_status');
       l2.textContent = data.loop_status || '-';
       l2.className = 'value ' + (data.loop_enabled ? 'green' : 'blue');
       // ⑥ 日志
       var logs = data.recent_logs || [];
-      var logBox = document.getElementById('logBox');
+      var logBox = document.getElementById('recent_logs');
       logBox.innerHTML = logs.map(function(l) {
         if (l.indexOf('❌') >= 0 || l.indexOf('出错') >= 0 || l.indexOf('失败') >= 0) return '<span class="err">' + escapeHtml(l) + '</span>';
         if (l.indexOf('✅') >= 0 || l.indexOf('成功') >= 0 || l.indexOf('完成') >= 0) return '<span class="ok">' + escapeHtml(l) + '</span>';
@@ -207,12 +218,12 @@ async function loadStatus() {
       }).join('\n');
       logBox.scrollTop = logBox.scrollHeight;
       // 时长 + 更新时间
-      setVal('appTime', data.app_time);
+      setVal('app_time', data.app_time);
       if (data.updated_at) {
         var d = new Date(data.updated_at);
-        document.getElementById('lastUpdate').textContent = d.toLocaleTimeString('zh-CN');
+        document.getElementById('last_update').textContent = d.toLocaleTimeString('zh-CN');
         var age = (Date.now() - d.getTime()) / 1000;
-        if (age > 15) {
+        if (age > OFFLINE_SECONDS) {
           setConnStatus(false, '连接中...（' + Math.floor(age) + '秒）');
           setButtonsEnabled(false);
         } else {
@@ -234,8 +245,7 @@ async function loadStatus() {
 
 async function sendCommand(cmd) {
   if (!supabaseClient) { alert('未连接'); return; }
-  var names = {runonce:'执行一次', loop:'开启循环', stop:'停止', runstats:'补跑统计报表', login:'打开SAP登录', recheck:'重新确认SAP界面', f12:'按F12', esc:'按ESC'};
-  if (!confirm('确认执行：' + (names[cmd] || cmd) + ' ?')) return;
+  if (!confirm('确认执行：' + (CMD_NAME[cmd] || cmd) + ' ?')) return;
   try {
     var result = await supabaseClient.from('sap_commands').insert([{ command: cmd, status: 'pending' }]).select();
     if (result.error) throw result.error;
